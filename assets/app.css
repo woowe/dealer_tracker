@@ -26,16 +26,32 @@ md-list .md-button {
   color: inherit;
   font-weight: 500;
   text-align: left;
-  width: 100%;
+  width: 94%;
+  text-overflow: ellipsis;
+  position: relative;
 }
-  md-list .md-button.selected {
+
+md-list .md-button.selected {
     color: #03a9f4;
-  }
+}
 
-  md-sidenav  md-list {
+md-list .md-button .proj-percent-complete {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(76, 197, 62, 0.2);
+    width: 50%;
+    height: 100%;
+    z-index: -1;
+}
+
+md-sidenav  md-list {
     padding: 0px 0px 8px 0px;
-  }
+}
 
+md-toolbar {
+    background-color: #106CC8;
+}
 
 /* Primary content area */
 
@@ -49,25 +65,43 @@ md-list .md-button {
   padding-top: 5px;
 }
 
-#content .md-button.share {
-  background-color: transparent;
-  border: none;
-  width: 48px;
-  height: 48px;
-  margin: 8px auto 16px 0;
-  position: absolute;
-  top: 10px;
-  right: 25px;
+#content .heading span {
+    vertical-align: middle;
 }
 
-#content md-icon.avatar {
-  margin-top: 10px;
+#content .seperator {
+    background-color: rgb(63,81,181);
+    color: rgba(255,255,255,0.87);
+    text-align: center;
+    font-size: 1.250em;
+    font-weight: 400;
 }
 
-#content .md-button.share > md-icon {
-  fill:black;
-  width:36px;
-  height:36px;
+#content .cust-card {
+    border-radius: 4px;
+    margin-bottom: 16px;
+    padding-bottom: 0;
+    overflow: hidden;
+    margin: 7px;
+}
+
+#content .cust-card md-toolbar {
+    z-index: inherit;
+    position: inherit;
+}
+
+#content .cust-card h3 {
+    font-size: 20px;
+    letter-spacing: .005em;
+    font-weight: 400;
+    margin-left: 10px;
+}
+
+#content .cust-card .info {
+    padding: 10px 5px;
+}
+
+#content .cust-card  {
 }
 
 md-button.menuBtn > md-icon {

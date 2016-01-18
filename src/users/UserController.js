@@ -27,25 +27,25 @@
 
     co(function *() {
       var login = yield sf_login("jcardinal@dealersocket.com","!@!#!$15q!!", "JoWTE1qRQnh3cu9nQdfP8edGh");
-      var user_info = yield sf_query("Select Id, Name FROM Contact WHERE Name = 'Jason Cardinal'");
-      sf_c_user = user_info.records[0];
+      sf_c_user = yield sf_query({
+          Select: [
+              {
+                  "Id" : "id"
+              },
+              {
+                  "Name": "name"
+              }
+          ],
+          From: "Contact",
+          "Where" : [
+              "Name = 'Jason Cardinal'"
+          ]
+      });
 
-      var b = sf_query("Select Id, Name FROM Contact WHERE Name = 'Jason Cardinal'");
-      var d = sf_query("Select Id, Name FROM Contact WHERE Name = 'Jason Cardinal'");
-      var c = sf_query("Select Id, Name FROM Contact WHERE Name = 'Jason Cardinal'");
-      var data = sf_query("Select Id, Name FROM Contact WHERE Name = 'Jason Cardinal'");
-
-      var team = yield {
-        builder: b,
-        design: d,
-        content: c,
-        data: data
-      };
-      
       console.log("Login successfull ", sf_c_user);
       console.log("Loading dealers...");
       userService
-            .loadAllDealers(sf_c_user.Id)
+            .loadAllDealers(sf_c_user[0].id)
             .then( function( users ) {
               self.users    = [].concat(users);
               self.selected = users[0];

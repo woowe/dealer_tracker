@@ -28,8 +28,9 @@
           <md-list>
             <md-item ng-repeat="it in ul.users">
                 <md-button ng-click="ul.selectUser(it)" ng-class="{'selected' : it === ul.selected }">
-                  <md-icon md-svg-icon="{{it.avatar}}" class="avatar"></md-icon>
-                  {{it.Name}}
+                  <md-icon md-svg-icon="svg-1" class="avatar"></md-icon>
+                  {{it.name}}
+                  <div class="proj-percent-complete" style="width: {{it.complete_percent}}%"></div>
                 </md-button>
             </md-item>
           </md-list>
@@ -38,21 +39,93 @@
         <md-content flex id="content">
           <md-tabs md-dynamic-height>
             <md-tab label="Info">
-              <md-content class="md-padding">
-                <md-icon md-svg-icon="{{ul.selected.avatar}}" class="avatar"></md-icon>
-                <h2 class="md-display-1">{{ul.selected.Name}}</h2>
-                <h3 class="sep-location">Location info.</h3>
-                <div class="location-info">
-                  <span>{{ul.selected.City__c}}, {{ul.selected.Dealer_State_Location__c}} {{ul.selected.Zip__c}}</span>
+              <md-content class="md-padding" layout="row">
+                <div class="left" layout="column" flex="50" flex-sm="100">
+                    <div class="heading" flex>
+                      <md-icon md-svg-icon="svg-1" class="avatar"></md-icon>
+                      <span class="md-display-1">{{ul.selected.name}}</span>
+                    </div>
+                    <section class="cust-card md-whiteframe-z1" flex="50" flex-sm="100" layout="column">
+                        <md-toolbar class="md-primary" layout="row">
+                            <h3>General info.</h3>
+                        </md-toolbar>
+                        <div class="info general-info">
+                            <div class="dates" layout="row" flex>
+                                <div class="left" layout="column" flex>
+                                    <p> <span class=""> Trans Call Date </span>:
+                                        <md-datepicker ng-model="ul.selected.trans_call"></md-datepicker>
+                                    </p>
+                                    <p> <span class=""> Original Go-Live Date </span>:
+                                        <md-datepicker ng-model="ul.selected.original_golive"></md-datepicker>
+                                    </p>
+                                    <p> <span class=""> Updated Go-Live Date </span>:
+                                        <md-datepicker ng-model="ul.selected.updated_golive"></md-datepicker>
+                                    </p>
+                                </div>
+                                <div class="right" layout="column" flex="50">
+                                    <h4 class="">Actual Go-Live Date</h4>
+                                    <md-datepicker ng-model="ul.selected.actual_golive"></md-datepicker>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="cust-card md-whiteframe-z1" flex layout="column">
+                        <md-toolbar class="md-primary" layout="row">
+                            <h3>Location info.</h3>
+                        </md-toolbar>
+                        <div class="info location-info">
+                          <span>{{ul.selected.dealer_city}}, {{ul.selected.dealer_state}} {{ul.selected.dealer_zip}}</span>
+                        </div>
+                    </section>
+                    <section class="cust-card md-whiteframe-z1" flex layout="column">
+                        <md-toolbar class="md-primary" layout="row">
+                            <h3>The Team.</h3>
+                        </md-toolbar>
+                        <div class="info team-info">
+                          <p> <span class="team-position">Builder</span>:
+                              <a href="mailto:{{ul.selected.builder.email}}" alt="{{ul.selected.builder.email}}">
+                                  {{ul.selected.builder.name}}
+                              </a>
+                          </p>
+                          <p> <span class="team-position">Designer</span>:
+                              <a href="mailto:{{ul.selected.writer.email}}" alt="{{ul.selected.writer.email}}">
+                                  {{ul.selected.writer.name}}
+                              </a>
+                          </p>
+                          <p> <span class="team-position">Content</span>:
+                              <a href="mailto:{{ul.selected.designer.email}}" alt="{{ul.selected.designer.email}}">
+                                  {{ul.selected.designer.name}}
+                              </a>
+                          </p>
+                          <p> <span class="team-position">Data</span>:
+                              <a href="mailto:{{ul.selected.dis.email}}" alt="{{ul.selected.dis.email}}">
+                                  {{ul.selected.dis.name}}
+                              </a>
+                          </p>
+                        </div>
+                    </section>
+                    <section class="cust-card md-whiteframe-z1" layout="column">
+                        <md-toolbar class="md-primary" layout="row">
+                            <h3>Contacts &amp; their info.</h3>
+                        </md-toolbar>
+                    </section>
                 </div>
-                <h3 class="sep-team">The Team.</h3>
-                <div class="team-info">
-                  <p> <span class="team-position">Builder</span>: {{ul.selected.Builder__c.Name}} </p>
-                  <p> <span class="team-position">Designer</span>: {{ul.selected.Builder__c.Name}} </p>
-                  <p> <span class="team-position">Content</span>: {{ul.selected.Builder__c.Name}} </p>
-                  <p> <span class="team-position">Data</span>: {{ul.selected.Builder__c.Name}} </p>
+                <div class="right" flex="50" flex-sm="100">
+                    <section class="cust-card md-whiteframe-z1" layout="column">
+                        <md-toolbar class="md-primary" layout="row">
+                            <h3>Tasks</h3>
+                        </md-toolbar>
+                        <div class="info">
+                            <md-list>
+                              <md-item ng-repeat="it in ul.selected.tasks">
+                                  <div class="task">
+                                    <md-checkbox ng-checked="it.completed" class="task-done"></md-checkbox>{{it.name}}
+                                  </div>
+                              </md-item>
+                            </md-list>
+                        </div>
+                    </section>
                 </div>
-                <h3 class="sep-contacts">Contacts &amp; their info.</h3>
               </md-content>
               <!--
               $$hashKey: "object:48"
@@ -74,12 +147,10 @@
             </md-tab>
             <md-tab label="Emails">
                 <md-content class="md-padding">
-                  <h2 class="md-display-1">Emails for {{ul.selected.Name}} </h2>
                 </md-content>
             </md-tab>
             <md-tab label="Q/A">
                 <md-content class="md-padding">
-                  <h2 class="md-display-1">Q/A for {{ul.selected.Name}} </h2>
                 </md-content>
             </md-tab>
           </md-tabs>
@@ -102,8 +173,12 @@
 
       angular
           .module('starterApp', ['ngMaterial', 'users'])
-          .config(function( $mdIconProvider ){
-
+          .config(function( $mdIconProvider, $mdThemingProvider ){
+              $mdThemingProvider.theme('default')
+                .primaryPalette('blue', {
+                    'default': '700'
+                })
+                .accentPalette('orange');
               // Register the user `avatar` icons
               $mdIconProvider
                       .defaultIconSet("./assets/svg/avatars.svg", 128)
