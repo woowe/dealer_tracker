@@ -52,10 +52,13 @@ function sf_query(query_struct) {
         }
         query_str += Object.keys(select[i])[0] + end;
     }
-    query_str += "FROM " + query_struct.From + " WHERE ";
-    var where = query_struct.Where;
-    for(i = 0; i < where.length; ++i) {
-        query_str += where[i] + " ";
+    query_str += "FROM " + query_struct.From;
+    if(query_struct.Where.length > 0) {
+        query_str += " WHERE ";
+        var where = query_struct.Where;
+        for(i = 0; i < where.length; ++i) {
+            query_str += where[i] + " ";
+        }
     }
     console.log(query_str);
   return conn.query(query_str, function(err, res) {
@@ -74,6 +77,7 @@ function sf_query(query_struct) {
                 }
             }
         }
+        console.log(query_obj);
       return query_obj;
     }
     console.error(err);

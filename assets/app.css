@@ -55,14 +55,17 @@ md-toolbar {
 
 /* Primary content area */
 
-#content {
-  overflow: hidden;
-}
-
 #content  {
   padding-left: 40px;
   padding-right: 40px;
   padding-top: 5px;
+  overflow: hidden;
+  height: 93%;
+}
+
+#content md-tab {
+    height: 100%;
+    overflow-y: auto;
 }
 
 #content .heading span {

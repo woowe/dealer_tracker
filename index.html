@@ -23,7 +23,7 @@
       <h1>Dealer Tracker</h1>
     </md-toolbar>
 
-    <div flex layout="row">
+    <div flex layout="row" style="height: 100%">
         <md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">
           <md-list>
             <md-item ng-repeat="it in ul.users">
@@ -50,6 +50,11 @@
                             <h3>General info.</h3>
                         </md-toolbar>
                         <div class="info general-info">
+                            <div class="milestones" layout="column" flex>
+                                <md-list ng-repeat="it in ul.selected.milestones">
+                                    {{it.name}}
+                                </md-list>
+                            </div>
                             <div class="dates" layout="row" flex>
                                 <div class="left" layout="column" flex>
                                     <p> <span class=""> Trans Call Date </span>:
@@ -171,6 +176,7 @@
 
     <script type="text/javascript">
 
+
       angular
           .module('starterApp', ['ngMaterial', 'users'])
           .config(function( $mdIconProvider, $mdThemingProvider ){
@@ -189,6 +195,12 @@
           })
           .run(function($log){
             $log.debug("starterApp + ngMaterial + 'users' + 'icon sets' running...");
+            var tabs = document.getElementsByTagName("md-tab-content");
+            var body = document.getElementsByTagName("body");
+            for (tab in tabs) {
+                console.log(tab);
+            }
+
           });
     </script>
 

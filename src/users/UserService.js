@@ -33,6 +33,7 @@ Trans_Call_Date__c, Zip__c, Content_Writer__c, DIS__c, Website_Designer__c, Actu
             var query_res = yield sf_query({
                 Select: [
                     /* project info */
+                    { "Id": "id" },
                     { "pse__Tasks_Total_Percent_Complete_Points__c": "complete_percent" },
                     { "Name": "name" },
                     { "pse__Stage__c": "project_stage" },
@@ -128,7 +129,24 @@ Trans_Call_Date__c, Zip__c, Content_Writer__c, DIS__c, Website_Designer__c, Actu
                   Where: [ "Project_Name__c  = '"+record.name+"'"]
               });
 
-              var ret = yield [ {builder: b}, {writer: c}, {designer: d}, {dis: data}, tasks];
+              var milestones = sf_query({
+                  Select: [
+                      {
+                          "Asset_MRR__c": "cost",
+                      },
+                      {
+                          "Name": "name",
+                      },
+                      {
+                          "pse__Status__c": "status",
+                      },
+                  ],
+                  From: "pse__Milestone__c",
+                  Where: [ "Child_Project__c = '"+record.id+"'",
+                         "AND Product_Class__c = 'Website'"]
+              });
+
+              var ret = yield [ {builder: b}, {writer: c}, {designer: d}, {dis: data}, tasks, milestones];
               for(var j = 0; j < 4; ++j) {
                   var feild = Object.keys(ret[j])[0];
                   if(ret[j][feild]) {
@@ -136,7 +154,8 @@ Trans_Call_Date__c, Zip__c, Content_Writer__c, DIS__c, Website_Designer__c, Actu
                     if(ret[j][feild][0].email) { query_res[i][feild].email = ret[j][feild][0].email; }
                   }
               }
-              query_res[i].tasks = ret[ret.length-1];
+              query_res[i].tasks = ret[4];
+              query_res[i].milestones = ret[5];
               console.log("Ret value for " + record.name + " : ", ret);
             }
 
