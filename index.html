@@ -123,8 +123,9 @@
                         <div class="info">
                             <md-list>
                               <md-item ng-repeat="it in ul.selected.tasks">
-                                  <div class="task">
-                                    <md-checkbox ng-checked="it.completed" class="task-done"></md-checkbox>{{it.name}}
+                                  <div class="task" >
+                                    <md-checkbox ng-if="!it.pendingValue" ng-model="it.completed" ng-change="toggleCompleteTask(it)" class="task-done">{{it.name}}</md-checkbox>
+                                    <md-progress-circular ng-if="it.pendingValue === true" md-mode="indeterminate" md-diameter="40">{{it.name}}</md-progress-circular>
                                   </div>
                               </md-item>
                             </md-list>

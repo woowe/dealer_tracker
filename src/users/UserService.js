@@ -118,6 +118,7 @@ Trans_Call_Date__c, Zip__c, Content_Writer__c, DIS__c, Website_Designer__c, Actu
                           func: convDate
                       },
                       { "Name": "name" },
+                      { "Id": "id" },
                       {
                           "pse__Status__c" : "completed",
                           func: function(status) {

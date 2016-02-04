@@ -13,6 +13,17 @@ function sf_login(username, password, sk) {
   });
 }
 
+function sf_update(sobject, records) {
+  return conn.update(sobject, records, function(err, res) {
+    console.log("Done updating!");
+    if(err || !res.success) {
+      console.error(err, ret);
+      return { res: err, success: false };
+    }
+    return { res: res, success: true };
+  })
+}
+
 
 /**
 usage:

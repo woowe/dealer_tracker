@@ -3,7 +3,7 @@
   angular
        .module('users')
        .controller('UserController', [
-          'userService', '$mdSidenav', '$mdBottomSheet', '$log',
+          'userService', '$mdSidenav', '$mdBottomSheet', '$log', '$scope',
           UserController
        ]);
 
@@ -14,7 +14,7 @@
    * @param avatarsService
    * @constructor
    */
-  function UserController( userService, $mdSidenav, $mdBottomSheet, $log ) {
+  function UserController( userService, $mdSidenav, $mdBottomSheet, $log, $scope) {
     var self = this;
 
     self.selected     = null;
@@ -44,6 +44,30 @@
 
       console.log("Login successfull ", sf_c_user);
       console.log("Loading dealers...");
+
+      $scope.toggleCompleteTask = function(task) {
+        console.log("Clicked! ", task);
+
+        co(function *() {
+          task.pendingValue = true;
+          var update = yield conn.sobject("pse__Project_Task__c").update({
+            Id: task.id,
+            pse__Status__c: (task.completed) ? "Complete" : "Incomplete"
+          }, function(err, ret) {
+            task.pendingValue = false;
+            console.log(task);
+            if(err || !ret.success) {
+              task.completed = !task.completed;
+              $scope.$apply();
+              return console.error(err, ret);
+            }
+            $scope.$apply();
+            return ret;
+          });
+          console.log(update);
+        });
+      }
+
       userService
             .loadAllDealers(sf_c_user[0].id)
             .then( function( users ) {
@@ -74,6 +98,8 @@
       self.selected = angular.isNumber(user) ? $scope.users[user] : user;
       self.toggleList();
     }
+
+
 
     /**
      * Show the bottom sheet
