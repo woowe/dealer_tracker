@@ -3,7 +3,6 @@
 
   angular.module('users')
          .service('userService', ['$q', UserService]);
-
   /**
    * Users DataService
    * Uses embedded, hard-coded data model; acts asynchronously to simulate
@@ -13,11 +12,101 @@
    * @constructor
    */
   function UserService($q){
-    var users = [];
 
-
+    function basic_loadAllDealers(id) {
+      return co(function *() {
+        var query_res = yield sf_query({
+            Select: [
+                /* project info */
+                { "Id": "id" },
+                { "pse__Tasks_Total_Percent_Complete_Points__c": "complete_percent" },
+                { "Name": "name" },
+                /* imporant project dates */
+                {
+                    "Projected_Go_Live_Date__c": "original_golive",
+                    func: convDate
+                },
+                {
+                    "Planned_Go_Live_Date__c": "updated_golive",
+                    func: convDate
+                },
+                {
+                    "Trans_Call_Date__c": "trans_call",
+                    func: convDate
+                },
+                {
+                    "Actual_Go_Live_Date1__c": "actual_golive",
+                    func: convDate
+                },
+            ],
+            From: "pse__Proj__c",
+            Where: [
+                "pse__Stage__c = 'In Preparation' AND",
+                "Builder__c = '" + id + "'"
+              ]
+            });
+      })
+    }
     // Promise-based API
     return {
+      loadSelectedDealer : function(id, dealer) {
+        return $q.when(co(function *() {
+          var query_res = yield sf_query({
+              Select: [
+                  /* project info */
+                  { "Id": "id" },
+                  { "pse__Tasks_Total_Percent_Complete_Points__c": "complete_percent" },
+                  { "Name": "name" },
+                  { "pse__Stage__c": "project_stage" },
+                  /* imporant project dates */
+                  {
+                      "Projected_Go_Live_Date__c": "original_golive",
+                      func: convDate
+                  },
+                  {
+                      "Planned_Go_Live_Date__c": "updated_golive",
+                      func: convDate
+                  },
+                  {
+                      "Trans_Call_Date__c": "trans_call",
+                      func: convDate
+                  },
+                  {
+                      "Actual_Go_Live_Date1__c": "actual_golive",
+                      func: convDate
+                  },
+                  /* location */
+                  { "Dealer_City_Location__c": "dealer_city" },
+                  { "Dealer_State_Location__c": "dealer_state" },
+                  { "Zip__c": "dealer_zip" },
+                  /* team */
+                  { // just so i can use it in the WHERE claus
+                      "Builder__c": "builder",
+                      func: team
+                  },
+                  {
+                      "Content_Writer__c": "writer",
+                      func: team
+                  },
+                  {
+                      "DIS__c": "dis",
+                      func: team
+                  },
+                  {
+                      "Website_Designer__c": "designer",
+                      func: team
+                  },
+              ],
+              From: "pse__Proj__c",
+              Where: [
+                  "pse__Stage__c = 'In Preparation' AND",
+                  "Builder__c = '" + id + "'"
+                ]
+          });
+
+          return
+        }));
+      },
       loadAllDealers : function(id) {
         // Simulate async nature of real remote calls
         // var promise = new Promise(function(res, rej) {

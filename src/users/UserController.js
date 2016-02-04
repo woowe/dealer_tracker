@@ -26,21 +26,7 @@
     // Load all registered users
 
     co(function *() {
-      var login = yield sf_login("jcardinal@dealersocket.com","!@!#!$15q!!", "JoWTE1qRQnh3cu9nQdfP8edGh");
-      sf_c_user = yield sf_query({
-          Select: [
-              {
-                  "Id" : "id"
-              },
-              {
-                  "Name": "name"
-              }
-          ],
-          From: "Contact",
-          "Where" : [
-              "Name = 'Jason Cardinal'"
-          ]
-      });
+      var  sf_c_user = yield sf_login("jcardinal@dealersocket.com","!@!#!$15q!!", "JoWTE1qRQnh3cu9nQdfP8edGh");
 
       console.log("Login successfull ", sf_c_user);
       console.log("Loading dealers...");
