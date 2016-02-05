@@ -1,0 +1,112 @@
+ var milestones = sf_query({
+                  Select: [
+                      {
+                          "Asset_MRR__c": "cost",
+                      },
+                      {
+                          "Name": "name",
+                      },
+                      {
+                          "pse__Status__c": "status",
+                      },
+                  ],
+                  From: "pse__Milestone__c",
+                  Where: [ "Child_Project__c = '"+record.id+"'",
+                         "AND Product_Class__c = 'Website'"]
+              });
+              
+  var tasks = sf_query({
+                  Select: [
+                      {
+                          "Due_Date__c": "due_date",
+                          func: convDate
+                      },
+                      { "Name": "name" },
+                      { "Id": "id" },
+                      {
+                          "pse__Status__c" : "completed",
+                          func: function(status) {
+                              return (status === "Complete");
+                          }
+                      }
+                  ],
+                  From: "pse__Project_Task__c",
+                  Where: [ "Project_Name__c  = '"+record.name+"'"]
+              });
+              
+ function getPerson(id) {
+                return {
+                    Select: [
+                        { "Name": "name" },
+                        { "Email": "email" },
+                    ],
+                    From: "Contact",
+                    Where: [ "Id = '"+id+"'" ]
+                };
+            }
+ var query_res = yield sf_query({
+                Select: [
+                    /* project info */
+                    { "Id": "id" },
+                    { "pse__Tasks_Total_Percent_Complete_Points__c": "complete_percent" },
+                    { "Name": "name" },
+                    { "pse__Stage__c": "project_stage" },
+                    /* imporant project dates */
+                    {
+                        "Projected_Go_Live_Date__c": "original_golive",
+                        func: convDate
+                    },
+                    {
+                        "Planned_Go_Live_Date__c": "updated_golive",
+                        func: convDate
+                    },
+                    {
+                        "Trans_Call_Date__c": "trans_call",
+                        func: convDate
+                    },
+                    {
+                        "Actual_Go_Live_Date1__c": "actual_golive",
+                        func: convDate
+                    },
+                    /* location */
+                    { "Dealer_City_Location__c": "dealer_city" },
+                    { "Dealer_State_Location__c": "dealer_state" },
+                    { "Zip__c": "dealer_zip" },
+                    /* team */
+                    { // just so i can use it in the WHERE claus
+                        "Builder__c": "builder",
+                        func: team
+                    },
+                    {
+                        "Content_Writer__c": "writer",
+                        func: team
+                    },
+                    {
+                        "DIS__c": "dis",
+                        func: team
+                    },
+                    {
+                        "Website_Designer__c": "designer",
+                        func: team
+                    },
+                ],
+                From: "pse__Proj__c",
+                Where: [
+                    "pse__Stage__c = 'In Preparation' AND",
+                    "Builder__c = '" + id + "'"
+                ]
+            });
+var update = yield conn.sobject("pse__Project_Task__c").update({
+            Id: task.id,
+            pse__Status__c: (task.completed) ? "Complete" : "Incomplete"
+          }, function(err, ret) {
+            task.pendingValue = false;
+            console.log(task);
+            if(err || !ret.success) {
+              task.completed = !task.completed;
+              $scope.$apply();
+              return console.error(err, ret);
+            }
+            $scope.$apply();
+            return ret;
+          });

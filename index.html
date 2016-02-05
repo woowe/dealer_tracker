@@ -1,118 +1,43 @@
 <!DOCTYPE html>
-<html lang="en" >
-  <head>
-    <title>Angular Material - Starter App</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+<html lang="en">
+    <head>
+        <title>Angular Material - Starter App</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,700'>
-    <link rel="stylesheet" href="./node_modules/angular-material/angular-material.css"/>
-    <link rel="stylesheet" href="./assets/app.css"/>
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,700'>
+        <link rel="stylesheet" href="./assets/app.css" />
+        <link rel="stylesheet" href="node_modules/ng2-material/dist/ng2-material.css">
+        <link rel="stylesheet" href="node_modules/ng2-material/dist/font.css">
 
-  </head>
-
-  <!-- Add UsersList controller -->
-  <body ng-app="starterApp" layout="column" ng-controller="UserController as ul">
-
-    <md-toolbar layout="row">
-      <md-button class="menu">
-        <md-icon md-svg-icon="menu" ></md-icon>
-      </md-button>
-      <h1>Dealer Tracker</h1>
-    </md-toolbar>
-
-    <div flex layout="row" style="height: 100%">
-        <md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">
-          <md-list>
-            <md-item ng-repeat="it in ul.users">
-                <md-button ng-click="ul.selectUser(it)" ng-class="{'selected' : it === ul.selected }">
-                  <md-icon md-svg-icon="svg-1" class="avatar"></md-icon>
-                  {{it.name}}
-                  <div class="proj-percent-complete" style="width: {{it.complete_percent}}%"></div>
-                </md-button>
-            </md-item>
-          </md-list>
-        </md-sidenav>
-
-        <md-content flex id="content">
-          <md-tabs md-dynamic-height>
-            <md-tab label="Info">
-              <md-content class="md-padding" layout="row">
-                
-              </md-content>
-              <!--
-              $$hashKey: "object:48"
-              Actual_Go_Live_Date__c: null
-              Builder__c: "003j000000ZboNUAAZ"
-              City__c: "Fort Worth"
-              Content_Writer__c: "003j000000KNzCsAAL"
-              Dealer_City_Location__c: "Fort Worth"
-              Dealer_State_Location__c: "TX"
-              Name: "Don Carro Website"
-              Percent_Complete__c: 0
-              Projected_Go_Live_Date__c: "2016-01-13"
-              Trans_Call_Date__c: "2015-12-02"
-              Zip__c: "76110"
-              attributes: Object
-              pse__Project_Status__c: null
-              pse__Project_Type__c: "Customer"
-              pse__Stage__c: "In Preparation" -->
-            </md-tab>
-            <md-tab label="Emails">
-                <md-content class="md-padding">
-                </md-content>
-            </md-tab>
-            <md-tab label="Q/A">
-                <md-content class="md-padding">
-                </md-content>
-            </md-tab>
-          </md-tabs>
-        </md-content>
-
-    </div>
-
-    <script src="./node_modules/angular/angular.js"></script>
-    <script src="./node_modules/angular-animate/angular-animate.js"></script>
-    <script src="./node_modules/angular-aria/angular-aria.js"></script>
-    <script type="text/javascript" src="./node_modules/angular-material/angular-material.js"></script>
-
-    <script src="./salesforce.js"></script>
-    <!-- Load App Logic -->
-    <script src="./src/users/Users.js"></script>
-    <script src="./src/users/UserController.js"></script>
-    <script src="./src/users/UserService.js"></script>
-
-    <script type="text/javascript">
-
-
-      angular
-          .module('starterApp', ['ngMaterial', 'users'])
-          .config(function( $mdIconProvider, $mdThemingProvider ){
-              $mdThemingProvider.theme('default')
-                .primaryPalette('blue', {
-                    'default': '700'
-                })
-                .accentPalette('orange');
-              // Register the user `avatar` icons
-              $mdIconProvider
-                      .defaultIconSet("./assets/svg/avatars.svg", 128)
-                      .icon("menu", "./assets/svg/menu.svg", 24)
-                      .icon("share", "./assets/svg/share.svg", 24);
-
-
-          })
-          .run(function($log){
-            $log.debug("starterApp + ngMaterial + 'users' + 'icon sets' running...");
-            var tabs = document.getElementsByTagName("md-tab-content");
-            var body = document.getElementsByTagName("body");
-            for (tab in tabs) {
-                console.log(tab);
+        <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+        <script src="node_modules/systemjs/dist/system.src.js"></script>
+        <script src="node_modules/rxjs/bundles/Rx.js"></script>
+        <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+        <script>
+        System.config({
+          packages: {
+            app: {
+              format: 'register',
+              defaultExtension: 'js'
+            },
+            'ng2-material': {
+              defaultExtension: 'js'
             }
+          },
+          map: {
+            'ng2-material': 'node_modules/ng2-material'
+          }
+        });
+        System.import('app/boot')
+        .then(null, console.error.bind(console));
+        </script>
+    </head>
 
-          });
-    </script>
-
+<!-- Add UsersList controller -->
+  <body>
+    <my-app></my-app>
   </body>
 </html>

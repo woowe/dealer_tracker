@@ -1,0 +1,34 @@
+<div class="page">
+  <div layout="column" class="login-page md-inline-form">
+    <md-content layout-align="center center">
+      <div [style.display]="(!remembered) ? 'flex' : 'none'">
+        <md-input-container class="md-block">
+          <label>Username</label>
+          <input type="text" md-input #username>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Password</label>
+          <input type="text" md-input #password>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Security Key</label>
+          <input type="text" md-input #security_key>
+        </md-input-container>
+      </div>
+      <div style="height: 100px;" layout="column" layout-align="center center">
+        <md-checkbox [checked]="remembered" #remember>
+          Remember Me!
+        </md-checkbox>
+        <button md-raised-button
+                class="md-raised md-primary"
+                *ngIf="!loggingIn && !builder_id"
+                (click)="login(username.value, password.value, security_key.value, remember.checked)"
+                >
+          Login</button>
+        <md-progress-circular *ngIf="loggingIn" mode="indeterminate"></md-progress-circular>
+        <i style="color: green" md-icon *ngIf="!loggingIn && builder_id">done</i>
+      </div>
+    </md-content>
+  </div>
+</div>
+<!-- JoWTE1qRQnh3cu9nQdfP8edGh -->
