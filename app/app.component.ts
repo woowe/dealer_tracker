@@ -47,7 +47,7 @@ export class AppComponent {
         if( err ) {
           self.remembered = false;
           self.attempted_logins += 1;
-          //return console.error(err);
+          console.error(err);
         }else {
           console.log("Logged in ", self);
           self.builder_id = ret.id;

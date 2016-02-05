@@ -6,7 +6,7 @@
   "scripts": {
     "tsc": "tsc",
     "tsc:w": "tsc --target es6 --module es6 -w ./src/main.ts",
-    "start": " electron main.js"
+    "start": "electron main.js"
   },
   "repository": {
     "type": "git",

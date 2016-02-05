@@ -50,6 +50,7 @@ System.register(['angular2/core', "ng2-material/all"], function(exports_1) {
                             if (err) {
                                 self.remembered = false;
                                 self.attempted_logins += 1;
+                                console.error(err);
                             }
                             else {
                                 console.log("Logged in ", self);

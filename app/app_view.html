@@ -1,18 +1,21 @@
-<div class="page">
-  <div layout="column" class="login-page md-inline-form">
-    <md-content layout-align="center center">
-      <div [style.display]="(!remembered) ? 'flex' : 'none'">
+<div class="page md-whiteframe-4dp">
+    <md-contnet class="main-page" layout="column" layout-align="center center">
+      <span>test</span>
+    </md-contnet>
+
+    <md-content class="login-card" layout-align="center center">
+      <div layout="column" [style.display]="(!remembered) ? 'flex' : 'none'">
         <md-input-container class="md-block">
           <label>Username</label>
           <input type="text" md-input #username>
         </md-input-container>
         <md-input-container class="md-block">
           <label>Password</label>
-          <input type="text" md-input #password>
+          <input type="password" md-input #password>
         </md-input-container>
         <md-input-container class="md-block">
           <label>Security Key</label>
-          <input type="text" md-input #security_key>
+          <input type="password" md-input #security_key>
         </md-input-container>
       </div>
       <div style="height: 100px;" layout="column" layout-align="center center">
@@ -29,6 +32,5 @@
         <i style="color: green" md-icon *ngIf="!loggingIn && builder_id">done</i>
       </div>
     </md-content>
-  </div>
 </div>
 <!-- JoWTE1qRQnh3cu9nQdfP8edGh -->
