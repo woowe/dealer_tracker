@@ -6,10 +6,23 @@
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "removeComments": false,
-    "noImplicitAny": false
+    "removeComments": true,
+    "noImplicitAny": false,
+    "outDir": "dist"
   },
+  "filesGlob": [
+    "client/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "files": [
+    "client/boot.ts",
+    "client/components/app.component.ts",
+    "client/interfaces/Login.ts",
+    "client/services/salesforce.ts"
+  ],
+  "atom": {
+    "rewriteTsconfig": true
+  }
 }

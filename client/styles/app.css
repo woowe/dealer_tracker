@@ -1,0 +1,35 @@
+.page {
+  display: flex;
+
+  height: 100%;
+  width: 100%;
+
+  position: relative;
+  top: 0;
+  transition: top 1s;
+}
+
+.scroll-page {
+  top: -100vh;
+}
+
+.login-card-container {
+  min-width: 100%;
+  min-height: 100%;
+
+  display: flex;
+}
+.login-card {
+    padding: 50px 150px;
+    height: auto;
+    width: auto;
+}
+
+.main-page-container {
+  min-width: 100%;
+  min-height: 100%;
+  background-color: #fff;
+}
+
+.main-page {
+}

@@ -8,15 +8,17 @@
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
         <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,700'>
-        <link rel="stylesheet" href="./assets/app.css" />
-        <link rel="stylesheet" href="node_modules/ng2-material/dist/ng2-material.css">
-        <link rel="stylesheet" href="node_modules/ng2-material/dist/font.css">
+        <link rel="stylesheet" href="./node_modules/ng2-material/dist/ng2-material.css">
+        <link rel="stylesheet" href="./node_modules/ng2-material/dist/font.css">
 
-        <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
-        <script src="node_modules/systemjs/dist/system.src.js"></script>
-        <script src="node_modules/rxjs/bundles/Rx.js"></script>
-        <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+        <script src="./node_modules/angular2/bundles/angular2-polyfills.js"></script>
+        <script src="./node_modules/systemjs/dist/system.src.js"></script>
+        <script src="./node_modules/rxjs/bundles/Rx.js"></script>
+        <script src="./node_modules/angular2/bundles/angular2.dev.js"></script>
+        <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+
         <script>
+        System.defaultJSExtension = true;
         System.config({
           packages: {
             app: {
@@ -31,27 +33,20 @@
             'ng2-material': 'node_modules/ng2-material'
           }
         });
-        System.import('app/boot')
-        .then(null, console.error.bind(console));
+        System.import('./dist/boot.js')
+          .catch(console.error.bind(console));
         </script>
 
         <style>
         body {
             background: url("assets/login_background.jpg");
-        }
-
-        my-app {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            width: 100%;
+            overflow: hidden;
         }
         </style>
     </head>
 
 <!-- Add UsersList controller -->
   <body>
-    <my-app></my-app>
+    <app></app>
   </body>
 </html>
